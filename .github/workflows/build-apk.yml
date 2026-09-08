@@ -37,8 +37,14 @@ jobs:
             keytool -genkeypair -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
           fi
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
+      - name: Build Optimized Release and Debug APK
+        run: ./gradlew assembleRelease assembleDebug --stacktrace
+
+      - name: Upload Optimized Release APK as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: remo-music-release-apk
+          path: app/build/outputs/apk/release/*.apk
 
       - name: Upload Debug APK as Artifact
         uses: actions/upload-artifact@v4
@@ -56,8 +62,13 @@ jobs:
             ### 🎵 REMOMUSIC Android Application
             - **تطوير وبرمجة:** محمد الحزمي (2026)
             - **الإصدار:** Build #${{ github.run_number }}
-            - تم تجميع وبناء ملف APK تلقائياً عبر GitHub Actions بنجاح.
-          files: app/build/outputs/apk/debug/*.apk
+            - تم تفعيل تقليص الحجم الفائق R8/ProGuard وضغط الموارد والصور.
+            - الحزمة تتضمن:
+              - `app-release.apk` (النسخة المصغرة الخفيفة المحسنة للإنتاج)
+              - `app-debug.apk` (نسخة التطوير)
+          files: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/apk/debug/*.apk
           draft: false
           prerelease: false
         env:
