@@ -1,0 +1,6 @@
+{
+  "name": "REMOMUSIC",
+  "description": "مشغل موسيقى احترافي فائق التطور يدعم السحابة، معادل صوتي ذكي، كلمات فورية مترجمة، ذكاء اصطناعي لاقتراح الأغاني، وتحكم صوتي متقدم",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
