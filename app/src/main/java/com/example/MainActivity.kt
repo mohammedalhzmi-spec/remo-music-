@@ -436,7 +436,7 @@ fun RemoMusicApp(viewModel: MusicViewModel) {
                         Spacer(modifier = Modifier.width(12.dp))
                         Column {
                             Text(
-                                text = "هذا التطبيق من بناء  وبرمجة وتطوير المطور محمد الحزمي",
+                                text = "هذا التطبيق من برمجة وتطوير المطور محمد الحزمي",
                                 style = MaterialTheme.typography.bodyMedium.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White

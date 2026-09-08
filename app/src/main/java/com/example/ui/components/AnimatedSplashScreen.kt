@@ -129,19 +129,21 @@ fun AnimatedSplashScreen(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.padding(24.dp)
+            modifier = Modifier.padding(20.dp)
         ) {
-            // Glowing Ambient Halos & Logo
+            // Glowing Ambient Halos & Wide Banner Asset
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.size(230.dp)
+                modifier = Modifier
+                    .fillMaxWidth(0.92f)
+                    .height(200.dp)
             ) {
                 // Outer Cyan & Orange ambient ring
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .scale(pulseScale)
-                        .clip(RoundedCornerShape(44.dp))
+                        .clip(RoundedCornerShape(32.dp))
                         .background(
                             Brush.sweepGradient(
                                 listOf(
@@ -154,33 +156,34 @@ fun AnimatedSplashScreen(
                         )
                 )
 
-                // Logo Container
+                // Wide Banner Container with Logo Image
                 Box(
                     modifier = Modifier
-                        .size(190.dp)
-                        .clip(RoundedCornerShape(36.dp))
-                        .shadow(32.dp, RoundedCornerShape(36.dp), spotColor = NeonCyan)
+                        .fillMaxWidth()
+                        .height(184.dp)
+                        .clip(RoundedCornerShape(26.dp))
+                        .shadow(32.dp, RoundedCornerShape(26.dp), spotColor = NeonCyan)
                         .border(
                             2.5.dp,
                             Brush.linearGradient(
                                 listOf(
-                                    Color(0xFF00F0FF).copy(alpha = 0.8f),
-                                    Color(0xFFFF8500).copy(alpha = 0.8f)
+                                    Color(0xFF00F0FF).copy(alpha = 0.85f),
+                                    Color(0xFFFF8500).copy(alpha = 0.85f)
                                 )
                             ),
-                            RoundedCornerShape(36.dp)
+                            RoundedCornerShape(26.dp)
                         )
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_remo_brand),
-                        contentDescription = "REMO Logo",
+                        contentDescription = "REMO Splash Banner",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(26.dp))
 
             // Brand Typography
             Text(
