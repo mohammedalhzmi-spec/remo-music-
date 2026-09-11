@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.R
 import com.example.model.Mood
+import com.example.ui.theme.AmberGold
 import com.example.ui.theme.DarkBorder
 import com.example.ui.theme.DarkSurfaceElevated
 import com.example.ui.theme.ElectricViolet
@@ -186,15 +187,31 @@ fun TopHeader(
                     )
                 }
 
-                // Pro Audio Suite Button (3D Chamber, 8D Orbit, Karaoke)
-                IconButton(
-                    onClick = onOpenProAudioSuite,
-                    modifier = Modifier.testTag("header_pro_suite_btn")
+                // Pro Audio Suite Button (3D Chamber, 8D Orbit, Karaoke) - Prominently Styled
+                Surface(
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .clickable(onClick = onOpenProAudioSuite)
+                        .border(1.dp, AmberGold, RoundedCornerShape(10.dp))
+                        .testTag("header_pro_suite_btn"),
+                    color = AmberGold.copy(alpha = 0.18f)
                 ) {
-                    Text(
-                        text = "✨",
-                        fontSize = 18.sp
-                    )
+                    Row(
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(text = "✨", fontSize = 14.sp)
+                        Spacer(modifier = Modifier.width(3.dp))
+                        Text(
+                            text = "الصوت الخارق",
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                color = AmberGold,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 11.sp
+                            )
+                        )
+                    }
                 }
 
                 // Drive Mode / Voice Control
@@ -209,16 +226,36 @@ fun TopHeader(
                     )
                 }
 
-                // Settings Button
-                IconButton(
-                    onClick = onOpenSettings,
-                    modifier = Modifier.testTag("header_settings_btn")
+                // Settings Button - Prominently Styled
+                Surface(
+                    modifier = Modifier
+                        .padding(horizontal = 2.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .clickable(onClick = onOpenSettings)
+                        .border(1.dp, NeonCyan, RoundedCornerShape(10.dp))
+                        .testTag("header_settings_btn"),
+                    color = NeonCyan.copy(alpha = 0.18f)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Settings,
-                        contentDescription = "Settings",
-                        tint = TextPrimary
-                    )
+                    Row(
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "Settings",
+                            tint = NeonCyan,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Spacer(modifier = Modifier.width(3.dp))
+                        Text(
+                            text = "الإعدادات",
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                color = NeonCyan,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 11.sp
+                            )
+                        )
+                    }
                 }
             }
         }
