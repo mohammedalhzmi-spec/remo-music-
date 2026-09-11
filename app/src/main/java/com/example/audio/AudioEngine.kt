@@ -77,6 +77,33 @@ class AudioEngine(private val context: Context) {
 
     private val hapticController = HapticBassController(context)
 
+    // 7. Shake-to-Control Gestures (التنقل بالهز والرج)
+    private val _isShakeControlEnabled = MutableStateFlow(false)
+    val isShakeControlEnabled = _isShakeControlEnabled.asStateFlow()
+
+    var onShakeNext: (() -> Unit)? = null
+    var onShakePrev: (() -> Unit)? = null
+    var onShakePause: (() -> Unit)? = null
+    var onShakePlay: (() -> Unit)? = null
+
+    private val shakeController = ShakeGestureController(
+        context = context,
+        onShakeLeft = { if (_isShakeControlEnabled.value) onShakeNext?.invoke() },
+        onShakeRight = { if (_isShakeControlEnabled.value) onShakePrev?.invoke() },
+        onShakeDown = { if (_isShakeControlEnabled.value) onShakePause?.invoke() },
+        onShakeUp = { if (_isShakeControlEnabled.value) onShakePlay?.invoke() }
+    )
+
+    // 8. HD Bluetooth Audio Enhancer (معزز سماعات البلوتوث الفائق)
+    private val _isBluetoothEnhancerEnabled = MutableStateFlow(false)
+    val isBluetoothEnhancerEnabled = _isBluetoothEnhancerEnabled.asStateFlow()
+
+    // 9. Strobe Party Flash Sync (وميض فلاش الحفلات المتزامن مع الإيقاع)
+    private val _isStrobeFlashEnabled = MutableStateFlow(false)
+    val isStrobeFlashEnabled = _isStrobeFlashEnabled.asStateFlow()
+
+    private val strobeController = StrobeFlashController(context)
+
     // 5. Acoustic Nature Ambience (أصوات طبيعية مهدئة للنوم والاسترخاء)
     private val _selectedAmbience = MutableStateFlow(AcousticAmbience.NONE)
     val selectedAmbience = _selectedAmbience.asStateFlow()
@@ -191,6 +218,11 @@ class AudioEngine(private val context: Context) {
                     if (_isHapticBassEnabled.value) {
                         val avgBass = (currentLevels[0] + currentLevels[1] + currentLevels[2] + currentLevels[3]) / 4f
                         hapticController.triggerBassHaptic(avgBass)
+                    }
+
+                    // Trigger Strobe Party Flash Sync on strong beats
+                    if (_isStrobeFlashEnabled.value && beatPulse > 0.68f) {
+                        strobeController.pulseFlash()
                     }
 
                     // 8D Orbit calculation (circulating sound field between left & right stereo)
@@ -638,6 +670,31 @@ class AudioEngine(private val context: Context) {
         _isHapticBassEnabled.value = enabled
         if (!enabled) {
             hapticController.stop()
+        }
+    }
+
+    fun setShakeControlEnabled(enabled: Boolean) {
+        _isShakeControlEnabled.value = enabled
+        if (enabled) {
+            shakeController.startListening()
+        } else {
+            shakeController.stopListening()
+        }
+    }
+
+    fun setBluetoothEnhancerEnabled(enabled: Boolean) {
+        _isBluetoothEnhancerEnabled.value = enabled
+        if (enabled) {
+            // Apply high-definition bluetooth boost profile (enhance treble and bass)
+            setBassBoost(65)
+            setVirtualizer(50)
+        }
+    }
+
+    fun setStrobeFlashEnabled(enabled: Boolean) {
+        _isStrobeFlashEnabled.value = enabled
+        if (!enabled) {
+            strobeController.turnOff()
         }
     }
 

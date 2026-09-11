@@ -580,6 +580,39 @@ fun RemoMusicApp(viewModel: MusicViewModel) {
         }
     }
 
+    // Modal Pro Audio Suite Sheet (3D Chamber, 8D Orbit, Karaoke, Haptic Bass, Shake Control, BT Enhancer, Strobe Flash)
+    if (isProAudioSheetOpen) {
+        val isShakeControlEnabled by viewModel.isShakeControlEnabled.collectAsState()
+        val isBluetoothEnhancerEnabled by viewModel.isBluetoothEnhancerEnabled.collectAsState()
+        val isStrobeFlashEnabled by viewModel.isStrobeFlashEnabled.collectAsState()
+
+        ProAudioSuiteSheet(
+            selectedChamber = selectedChamber,
+            onSelectChamber = { viewModel.selectSpatialChamber(it) },
+            isOrbitEnabled = isOrbitEnabled,
+            onToggleOrbit = { viewModel.toggleOrbitAudio(it) },
+            orbitSpeed = orbitSpeed,
+            onOrbitSpeedChange = { viewModel.setOrbitSpeed(it) },
+            currentPan = currentPan,
+            isKaraokeMode = isKaraokeMode,
+            onToggleKaraoke = { viewModel.toggleKaraokeMode(it) },
+            vocalAttenuateLevel = vocalAttenuateLevel,
+            onVocalAttenuateChange = { viewModel.setKaraokeAttenuation(it) },
+            isHapticBassEnabled = isHapticBassEnabled,
+            onToggleHapticBass = { viewModel.toggleHapticBass(it) },
+            isShakeControlEnabled = isShakeControlEnabled,
+            onToggleShakeControl = { viewModel.toggleShakeControl(it) },
+            isBluetoothEnhancerEnabled = isBluetoothEnhancerEnabled,
+            onToggleBluetoothEnhancer = { viewModel.toggleBluetoothEnhancer(it) },
+            isStrobeFlashEnabled = isStrobeFlashEnabled,
+            onToggleStrobeFlash = { viewModel.toggleStrobeFlash(it) },
+            selectedAmbience = selectedAmbience,
+            onSelectAmbience = { viewModel.selectAcousticAmbience(it) },
+            detectedBpm = detectedBpm,
+            onDismiss = { viewModel.setProAudioSheetOpen(false) }
+        )
+    }
+
     // Modal Equalizer Sheet
     if (isEqualizerSheetOpen) {
         EqualizerSheet(

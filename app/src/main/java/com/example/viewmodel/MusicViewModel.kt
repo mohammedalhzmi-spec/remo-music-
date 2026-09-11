@@ -228,6 +228,9 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
     val isKaraokeMode = audioEngine.isKaraokeMode
     val vocalAttenuateLevel = audioEngine.vocalAttenuateLevel
     val isHapticBassEnabled = audioEngine.isHapticBassEnabled
+    val isShakeControlEnabled = audioEngine.isShakeControlEnabled
+    val isBluetoothEnhancerEnabled = audioEngine.isBluetoothEnhancerEnabled
+    val isStrobeFlashEnabled = audioEngine.isStrobeFlashEnabled
     val selectedAmbience = audioEngine.selectedAmbience
     val detectedBpm = audioEngine.detectedBpm
 
@@ -260,6 +263,18 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
 
     fun toggleHapticBass(enabled: Boolean) {
         audioEngine.setHapticBass(enabled)
+    }
+
+    fun toggleShakeControl(enabled: Boolean) {
+        audioEngine.setShakeControlEnabled(enabled)
+    }
+
+    fun toggleBluetoothEnhancer(enabled: Boolean) {
+        audioEngine.setBluetoothEnhancerEnabled(enabled)
+    }
+
+    fun toggleStrobeFlash(enabled: Boolean) {
+        audioEngine.setStrobeFlashEnabled(enabled)
     }
 
     fun selectAcousticAmbience(ambience: com.example.model.AcousticAmbience) {
@@ -367,6 +382,11 @@ class MusicViewModel(application: Application) : AndroidViewModel(application) {
         audioEngine.onSongCompletionListener = {
             playNextSong(isAuto = true)
         }
+
+        audioEngine.onShakeNext = { playNextSong(isAuto = false) }
+        audioEngine.onShakePrev = { playPreviousSong() }
+        audioEngine.onShakePause = { pause() }
+        audioEngine.onShakePlay = { togglePlayPause() }
 
         voiceHandler.onActionDetected = { action, text ->
             handleVoiceAction(action)

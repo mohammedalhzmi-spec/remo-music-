@@ -84,6 +84,12 @@ fun ProAudioSuiteSheet(
     onVocalAttenuateChange: (Int) -> Unit,
     isHapticBassEnabled: Boolean,
     onToggleHapticBass: (Boolean) -> Unit,
+    isShakeControlEnabled: Boolean,
+    onToggleShakeControl: (Boolean) -> Unit,
+    isBluetoothEnhancerEnabled: Boolean,
+    onToggleBluetoothEnhancer: (Boolean) -> Unit,
+    isStrobeFlashEnabled: Boolean,
+    onToggleStrobeFlash: (Boolean) -> Unit,
     selectedAmbience: AcousticAmbience,
     onSelectAmbience: (AcousticAmbience) -> Unit,
     detectedBpm: Int,
@@ -554,7 +560,182 @@ fun ProAudioSuiteSheet(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // SECTION 6: Live BPM & Rhythm Pulse Indicator
+            // SECTION 7: Shake-to-Control Gestures (التنقل بالهز والرج)
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("shake_control_card"),
+                shape = RoundedCornerShape(14.dp),
+                color = DarkSurfaceElevated,
+                border = androidx.compose.foundation.BorderStroke(1.dp, DarkBorder)
+            ) {
+                Row(
+                    modifier = Modifier.padding(14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Surface(
+                            shape = CircleShape,
+                            color = NeonMagenta.copy(alpha = 0.2f),
+                            modifier = Modifier.size(40.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Text("📱", fontSize = 18.sp)
+                            }
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Column {
+                            Text(
+                                text = "التنقل بالهز والرج (Shake Control)",
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    fontWeight = FontWeight.Bold,
+                                    color = TextPrimary
+                                )
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = "رج الجهاز لليسار للتالي، لليمين للسابق، أعلى للتشغيل، أسفل للإيقاف",
+                                style = MaterialTheme.typography.labelSmall.copy(color = TextSecondary)
+                            )
+                        }
+                    }
+                    Switch(
+                        checked = isShakeControlEnabled,
+                        onCheckedChange = onToggleShakeControl,
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = Color.White,
+                            checkedTrackColor = NeonMagenta,
+                            uncheckedThumbColor = TextSecondary,
+                            uncheckedTrackColor = DarkBackground
+                        ),
+                        modifier = Modifier.testTag("shake_control_switch")
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // SECTION 8: HD Bluetooth Audio Enhancer (معزز سماعات البلوتوث الفائق)
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("bluetooth_enhancer_card"),
+                shape = RoundedCornerShape(14.dp),
+                color = DarkSurfaceElevated,
+                border = androidx.compose.foundation.BorderStroke(1.dp, DarkBorder)
+            ) {
+                Row(
+                    modifier = Modifier.padding(14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Surface(
+                            shape = CircleShape,
+                            color = NeonCyan.copy(alpha = 0.2f),
+                            modifier = Modifier.size(40.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Text("🎧", fontSize = 18.sp)
+                            }
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Column {
+                            Text(
+                                text = "معزز سماعات البلوتوث الفائق (HD BT)",
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    fontWeight = FontWeight.Bold,
+                                    color = TextPrimary
+                                )
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = "تعويض ضغط البلوتوث ورفع جودة الصوت اللاسلكي لمستوى استوديو",
+                                style = MaterialTheme.typography.labelSmall.copy(color = TextSecondary)
+                            )
+                        }
+                    }
+                    Switch(
+                        checked = isBluetoothEnhancerEnabled,
+                        onCheckedChange = onToggleBluetoothEnhancer,
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = Color.White,
+                            checkedTrackColor = NeonCyan,
+                            uncheckedThumbColor = TextSecondary,
+                            uncheckedTrackColor = DarkBackground
+                        ),
+                        modifier = Modifier.testTag("bluetooth_enhancer_switch")
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // SECTION 9: Strobe Party Flash Sync (وميض فلاش الحفلات المتزامن)
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("strobe_flash_card"),
+                shape = RoundedCornerShape(14.dp),
+                color = DarkSurfaceElevated,
+                border = androidx.compose.foundation.BorderStroke(1.dp, DarkBorder)
+            ) {
+                Row(
+                    modifier = Modifier.padding(14.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Surface(
+                            shape = CircleShape,
+                            color = AmberGold.copy(alpha = 0.2f),
+                            modifier = Modifier.size(40.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Text("🔦", fontSize = 18.sp)
+                            }
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Column {
+                            Text(
+                                text = "وميض فلاش الحفلات المتزامن (Strobe Flash)",
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    fontWeight = FontWeight.Bold,
+                                    color = TextPrimary
+                                )
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = "إضاءة فلاش الكاميرا بشكل متزامن مع نبضات الإيقاع والبيس",
+                                style = MaterialTheme.typography.labelSmall.copy(color = TextSecondary)
+                            )
+                        }
+                    }
+                    Switch(
+                        checked = isStrobeFlashEnabled,
+                        onCheckedChange = onToggleStrobeFlash,
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = Color.White,
+                            checkedTrackColor = AmberGold,
+                            uncheckedThumbColor = TextSecondary,
+                            uncheckedTrackColor = DarkBackground
+                        ),
+                        modifier = Modifier.testTag("strobe_flash_switch")
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(14.dp),
