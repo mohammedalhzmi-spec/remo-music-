@@ -1,0 +1,6 @@
+{
+  "name": "REMOMUSIC",
+  "description": "ريمو مشغل الموسيقى الاحترافي",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

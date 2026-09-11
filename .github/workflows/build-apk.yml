@@ -1,0 +1,75 @@
+name: Build & Release Android APK
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Debug & Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Restore debug keystore
+        run: |
+          if [ -f debug.keystore.base64 ]; then
+            base64 -d debug.keystore.base64 > debug.keystore
+          else
+            keytool -genkeypair -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          fi
+
+      - name: Build Optimized Release and Debug APK
+        run: ./gradlew assembleRelease assembleDebug --stacktrace
+
+      - name: Upload Optimized Release APK as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: remo-music-release-apk
+          path: app/build/outputs/apk/release/*.apk
+
+      - name: Upload Debug APK as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: remo-music-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+
+      - name: Create GitHub Release with APK
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.0-${{ github.run_number }}
+          name: "REMO MUSIC v1.0.${{ github.run_number }}"
+          body: |
+            ### 🎵 REMOMUSIC Android Application
+            - **تطوير وبرمجة:** محمد الحزمي (2026)
+            - **الإصدار:** Build #${{ github.run_number }}
+            - تم تفعيل تقليص الحجم الفائق R8/ProGuard وضغط الموارد والصور.
+            - الحزمة تتضمن:
+              - `app-release.apk` (النسخة المصغرة الخفيفة المحسنة للإنتاج)
+              - `app-debug.apk` (نسخة التطوير)
+          files: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/apk/debug/*.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
