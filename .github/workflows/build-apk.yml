@@ -38,7 +38,9 @@ jobs:
           fi
 
       - name: Build Optimized Release and Debug APK
-        run: ./gradlew assembleRelease assembleDebug --stacktrace
+        env:
+          _JAVA_OPTIONS: "-Djava.awt.headless=true"
+        run: ./gradlew assembleRelease assembleDebug -Djava.awt.headless=true --no-daemon
 
       - name: Upload Optimized Release APK as Artifact
         uses: actions/upload-artifact@v4
