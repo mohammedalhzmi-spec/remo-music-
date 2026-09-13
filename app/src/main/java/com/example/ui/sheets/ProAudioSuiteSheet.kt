@@ -84,6 +84,10 @@ fun ProAudioSuiteSheet(
     onVocalAttenuateChange: (Int) -> Unit,
     isHapticBassEnabled: Boolean,
     onToggleHapticBass: (Boolean) -> Unit,
+    isUltimateBoostEnabled: Boolean,
+    onToggleUltimateBoost: (Boolean) -> Unit,
+    ultimateBoostLevel: Int,
+    onUltimateBoostLevelChange: (Int) -> Unit,
     isShakeControlEnabled: Boolean,
     onToggleShakeControl: (Boolean) -> Unit,
     isBluetoothEnhancerEnabled: Boolean,
@@ -177,6 +181,80 @@ fun ProAudioSuiteSheet(
 
                 IconButton(onClick = onDismiss) {
                     Icon(Icons.Default.Close, contentDescription = "Close", tint = TextSecondary)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            // SECTION 0: Ultimate Audio Booster (الصوت المطلق المعزز للهواتف ذات الصوت الضعيف)
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                color = DarkSurfaceCard,
+                border = androidx.compose.foundation.BorderStroke(1.dp, if (isUltimateBoostEnabled) AmberGold else DarkBorder)
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(
+                                modifier = Modifier
+                                    .size(36.dp)
+                                    .clip(CircleShape)
+                                    .background(AmberGold.copy(alpha = 0.2f)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(Icons.Default.Hearing, contentDescription = null, tint = AmberGold)
+                            }
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Column {
+                                Text(
+                                    text = "الصوت المطلق المعزز (للهواتف الضعيفة)",
+                                    style = MaterialTheme.typography.bodyMedium.copy(
+                                        fontWeight = FontWeight.Bold,
+                                        color = TextPrimary
+                                    )
+                                )
+                                Text(
+                                    text = "يرفع مستوى الصوت والنقاء إلى أقصى حد ممكن لتضخيم السماعات الضعيفة",
+                                    style = MaterialTheme.typography.labelSmall.copy(color = TextSecondary)
+                                )
+                            }
+                        }
+                        Switch(
+                            checked = isUltimateBoostEnabled,
+                            onCheckedChange = { onToggleUltimateBoost(it) },
+                            colors = SwitchDefaults.colors(
+                                checkedThumbColor = Color.White,
+                                checkedTrackColor = AmberGold
+                            )
+                        )
+                    }
+
+                    if (isUltimateBoostEnabled) {
+                        Spacer(modifier = Modifier.height(14.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text("مستوى التضخيم المطلق:", style = MaterialTheme.typography.labelSmall.copy(color = TextSecondary))
+                            Text("$ultimateBoostLevel%", style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold, color = AmberGold))
+                        }
+                        Slider(
+                            value = ultimateBoostLevel.toFloat(),
+                            onValueChange = { onUltimateBoostLevelChange(it.toInt()) },
+                            valueRange = 0f..100f,
+                            colors = SliderDefaults.colors(
+                                thumbColor = AmberGold,
+                                activeTrackColor = AmberGold,
+                                inactiveTrackColor = DarkBorder
+                            )
+                        )
+                    }
                 }
             }
 

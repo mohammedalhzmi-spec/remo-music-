@@ -589,6 +589,8 @@ fun RemoMusicApp(viewModel: MusicViewModel) {
         val isShakeControlEnabled by viewModel.isShakeControlEnabled.collectAsState()
         val isBluetoothEnhancerEnabled by viewModel.isBluetoothEnhancerEnabled.collectAsState()
         val isStrobeFlashEnabled by viewModel.isStrobeFlashEnabled.collectAsState()
+        val isUltimateBoostEnabled by viewModel.isUltimateBoostEnabled.collectAsState()
+        val ultimateBoostLevel by viewModel.ultimateBoostLevel.collectAsState()
 
         ProAudioSuiteSheet(
             selectedChamber = selectedChamber,
@@ -604,6 +606,10 @@ fun RemoMusicApp(viewModel: MusicViewModel) {
             onVocalAttenuateChange = { viewModel.setKaraokeAttenuation(it) },
             isHapticBassEnabled = isHapticBassEnabled,
             onToggleHapticBass = { viewModel.toggleHapticBass(it) },
+            isUltimateBoostEnabled = isUltimateBoostEnabled,
+            onToggleUltimateBoost = { viewModel.toggleUltimateBoost() },
+            ultimateBoostLevel = ultimateBoostLevel,
+            onUltimateBoostLevelChange = { viewModel.setUltimateBoostLevel(it) },
             isShakeControlEnabled = isShakeControlEnabled,
             onToggleShakeControl = { viewModel.toggleShakeControl(it) },
             isBluetoothEnhancerEnabled = isBluetoothEnhancerEnabled,
