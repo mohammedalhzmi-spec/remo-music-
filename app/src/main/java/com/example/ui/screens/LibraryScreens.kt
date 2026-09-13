@@ -332,9 +332,9 @@ fun FoldersView(
                             else -> NeonCyan
                         }
                         val storageIcon = when {
-                            isSdCard -> Icons.Default.SdCard
-                            isUsb -> Icons.Default.Usb
-                            else -> Icons.Default.Smartphone
+                            isSdCard -> Icons.Default.Album
+                            isUsb -> Icons.Default.MusicNote
+                            else -> Icons.Default.Folder
                         }
 
                         Surface(
@@ -433,9 +433,9 @@ fun FoldersView(
                             else -> NeonCyan
                         }
                         val storageIcon = when {
-                            isSdCard -> Icons.Default.SdCard
-                            isUsb -> Icons.Default.Usb
-                            else -> Icons.Default.Smartphone
+                            isSdCard -> Icons.Default.Album
+                            isUsb -> Icons.Default.MusicNote
+                            else -> Icons.Default.Folder
                         }
 
                         Surface(

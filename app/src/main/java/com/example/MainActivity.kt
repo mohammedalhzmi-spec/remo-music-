@@ -393,8 +393,11 @@ fun RemoMusicApp(viewModel: MusicViewModel) {
                                     }
                                 )
                             } else {
+                                val foldersViewMode by viewModel.foldersViewMode.collectAsState()
                                 FoldersView(
                                     folders = folders,
+                                    viewMode = foldersViewMode,
+                                    onToggleViewMode = { viewModel.toggleFoldersViewMode() },
                                     onFolderClick = { folder ->
                                         viewModel.selectFolder(folder)
                                     }
